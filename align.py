@@ -42,14 +42,16 @@ class EpiIndentCurrent(sublime_plugin.TextCommand):
     lines = (self.view.substr(self.view.line(self.view.sel()[0])), self.view.substr(self.view.line(self.view.text_point(row - 1, 0))), self.view.substr(self.view.line(self.view.text_point(row - 2, 0))))
     actual_spaces = get_indentation(lines[0])
     last_spaces = get_spaces(lines[1])
+    new_spaces = 0
     if last_char(lines[1]) == '{':
       new_spaces = 2
     elif last_char(lines[1]) == '}':
       new_spaces = -2
+    elif is_condition(lines[1]):
+      new_spaces = 2
     elif is_condition(lines[2]):
       new_spaces = -2
     str_spaces = "\t" * ((new_spaces + last_spaces) / 8) + " " * ((new_spaces + last_spaces) % 8)
-    print "line %d : actual_spaces : %d, last_spaces : %d, new_spaces : %d" % (row + 1, actual_spaces, last_spaces, last_spaces + new_spaces)
     self.view.replace(edit, sublime.Region(self.view.text_point(row, 0), self.view.text_point(row, actual_spaces)), str_spaces)
 
 class EpiIndentAll(sublime_plugin.TextCommand):
