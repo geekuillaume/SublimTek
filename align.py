@@ -2,7 +2,7 @@ import sublime, sublime_plugin
 import re
 
 def is_function(line):
-  if re.match(r"^[a-zA-Z0-9_]+\t[*]*[a-zA-Z0-9_]+\([a-zA-Z0-9_*, ]*\)$", line):
+  if re.match(r"^[a-zA-Z0-9_]+\t+[*]*[a-zA-Z0-9_]+\([a-zA-Z0-9_*, ]*\)$", line):
     return 1
   return 0
 
@@ -15,10 +15,6 @@ def ifloor(number, floor):
   if number < floor:
     return floor
   return number
-
-class EpiAlignAllCommand(sublime_plugin.TextCommand):
-  def run(self, edit):
-    self.view.run_command("epi_indent_tabs")
 
 class EpiIndentAll(sublime_plugin.TextCommand):
 
@@ -49,7 +45,10 @@ class EpiIndentAll(sublime_plugin.TextCommand):
             next_line -= 2
           break
       str_spaces = "\t" * ((new_spaces + last_spaces) / 8) + " " * ((new_spaces + last_spaces) % 8)
-      self.view.replace(edit, sublime.Region(self.view.text_point(i, 0), self.view.text_point(i, actual_spaces)), str_spaces)
+      if actual_spaces != len(line):
+        self.view.replace(edit, sublime.Region(self.view.text_point(i, 0), self.view.text_point(i, actual_spaces)), str_spaces)
+      else:
+        self.view.replace(edit, sublime.Region(self.view.text_point(i, 0), self.view.text_point(i, actual_spaces)), "")
       last_spaces = ifloor(new_spaces + next_line + last_spaces, 0)
       last_line = line
 
