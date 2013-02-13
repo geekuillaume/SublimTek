@@ -33,20 +33,22 @@ class EpiActivate(sublime_plugin.TextCommand):
 class EpiDeactivate(sublime_plugin.TextCommand):
 
   def run(self, edit):
-    tmp = self.view.settings().get("auto_indent_bak")
-    self.view.settings().set("auto_indent", tmp)
 
-    tmp = self.view.settings().get("detect_indentation_bak")
-    self.view.settings().set("detect_indentation", tmp)
+    if self.view.settings().get("sublim_tek_mode") == "true" :
+        tmp = self.view.settings().get("auto_indent_bak")
+        self.view.settings().set("auto_indent", tmp)
 
-    tmp = self.view.settings().get("rulers_bak")
-    self.view.settings().set("rulers", tmp)
+        tmp = self.view.settings().get("detect_indentation_bak")
+        self.view.settings().set("detect_indentation", tmp)
 
-    tmp = self.view.settings().get("tab_size_bak")
-    self.view.settings().set("tab_size", tmp)
+        tmp = self.view.settings().get("rulers_bak")
+        self.view.settings().set("rulers", tmp)
 
-    tmp = self.view.settings().get("translate_tabs_to_spaces_bak")
-    self.view.settings().set("translate_tabs_to_spaces", tmp)
+        tmp = self.view.settings().get("tab_size_bak")
+        self.view.settings().set("tab_size", tmp)
 
-    tmp = self.view.settings().get("trim_trailing_white_space_on_save_bak")
-    self.view.settings().set("trim_trailing_white_space_on_save", tmp)
+        tmp = self.view.settings().get("translate_tabs_to_spaces_bak")
+        self.view.settings().set("translate_tabs_to_spaces", tmp)
+
+        tmp = self.view.settings().get("trim_trailing_white_space_on_save_bak")
+        self.view.settings().set("trim_trailing_white_space_on_save", tmp)
