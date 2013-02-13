@@ -1,0 +1,4 @@
+[
+	{ "keys": ["ctrl+shift+i"], "command": "epi_indent_all" },
+	{ "keys": ["enter"], "command": "epi_new_line" }
+]
