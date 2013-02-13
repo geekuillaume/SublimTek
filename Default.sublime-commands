@@ -1,0 +1,14 @@
+[
+    {
+        "caption": "SublimTek : Activate Epitech Mode",
+        "command": "epi_activate"
+    },
+    {
+        "caption": "SublimTek : Deactivate Epitech Mode",
+        "command": "epi_deactivate"
+    },
+    {
+        "caption": "SublimTek : Indent all",
+        "command": "epi_align_all"
+    }
+]
