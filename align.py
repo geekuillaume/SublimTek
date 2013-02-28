@@ -2,7 +2,7 @@ import sublime, sublime_plugin
 import re
 
 def is_function(line):
-  if re.match(r"^[a-zA-Z0-9_]+\t+[*]*[a-zA-Z0-9_]+\([a-zA-Z0-9_*, ]*\)$", line):
+  if re.match(r"^[a-zA-Z0-9_]+(\t| )+[*]*[a-zA-Z0-9_]+\([a-zA-Z0-9_*, ]*\)$", line):
     return 1
   return 0
 
@@ -44,13 +44,15 @@ class EpiIndentCurrent(sublime_plugin.TextCommand):
     last_spaces = get_spaces(lines[1])
     new_spaces = 0
     if last_char(lines[1]) == '{':
-      new_spaces = 2
+      new_spaces += 2
     elif last_char(lines[1]) == '}':
-      new_spaces = -2
+      new_spaces += -2
     elif is_condition(lines[1]):
-      new_spaces = 2
+      new_spaces += 2
     elif is_condition(lines[2]):
-      new_spaces = -2
+      new_spaces += -2
+    if last_char(lines[0]) == '}':
+      new_spaces += -2
     str_spaces = "\t" * ((new_spaces + last_spaces) / 8) + " " * ((new_spaces + last_spaces) % 8)
     self.view.replace(edit, sublime.Region(self.view.text_point(row, 0), self.view.text_point(row, actual_spaces)), str_spaces)
 
@@ -91,9 +93,9 @@ class EpiIndentAll(sublime_plugin.TextCommand):
       last_line = line
 
 
-class EpiNewLine(sublime_plugin.TextCommand):
+class EpiIndentLine(sublime_plugin.TextCommand):
   def run(self, edit):
-    self.view.run_command('insert', {"characters": "\n"})
+    # self.view.run_command('insert', {"characters": "\n"})
     if self.view.settings().get('sublim_tek_mode') == "true":
       self.view.run_command('epi_indent_current')
 
@@ -101,3 +103,5 @@ class EpiHooks(sublime_plugin.EventListener):
     def on_pre_save(self, view):
       if view.settings().get('sublim_tek_mode') == "true":
         view.run_command('epi_indent_all')
+    def on_load(self, view):
+      if (options)
