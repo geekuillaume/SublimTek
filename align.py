@@ -2,7 +2,7 @@ import sublime, sublime_plugin
 import re
 
 def is_function(line):
-  if re.match(r"^[a-zA-Z0-9_]+(\t| )+[*]*[a-zA-Z0-9_]+\([a-zA-Z0-9_*, ]*\)$", line):
+  if re.match(r"^[a-zA-Z0-9_]+(\t| )+[*]*[a-zA-Z0-9_:]+\([a-zA-Z0-9_*, \[\]]*\)$", line):
     return 1
   return 0
 
@@ -103,5 +103,3 @@ class EpiHooks(sublime_plugin.EventListener):
     def on_pre_save(self, view):
       if view.settings().get('sublim_tek_mode') == "true":
         view.run_command('epi_indent_all')
-    def on_load(self, view):
-      if (options)
